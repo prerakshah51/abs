@@ -15,20 +15,60 @@
   <action-view name="app.builder.models.views.model.studio" title="Model Studio">
     <view type="html" name="studio/custom-model"/>
   </action-view>
-
-  <menuitem name="app-builder-models-views-custom-models" title="Custom models" parent="app-builder-models-views" action="custom.models.all" order="10"/>
   
-  <menuitem name="app-builder-models-views-custom-fields" title="Custom fields" parent="app-builder-models-views" action="custom.fields.all" order="11"/>
+  <menuitem name="app-builder-models-views-module-builders" title="Modules" parent="app-builder-models-views" order="8" action="app.builder.models.views.model.module.builders"/>
   
-  <menuitem name="app-builder-models-views-custom-field-creators" title="Custom field creators" parent="app-builder-models-views" action="app.builder.models.views.custom.field.creators" order="15"/>
+  <action-view name="app.builder.models.views.model.module.builders" title="Module builders" model="com.axelor.studio.db.ModuleBuilder">
+  	<view type="grid" name="module-builder-grid"/>
+    <view type="form" name="module-builder-form"/>
+  </action-view>
+  
+  
+  <menuitem name="app-builder-models-views-models" title="Models" parent="app-builder-models-views" order="10"/>
+ 
+  <menuitem name="app-builder-models-views-custom-models" title="Custom models" parent="app-builder-models-views-models" action="custom.models.all" order="10"/>
+  
+  <menuitem name="app-builder-models-views-custom-fields" title="Custom fields" parent="app-builder-models-views-models" action="custom.fields.all" order="11"/>
+  
+  <menuitem name="app-builder-models-views-custom-field-creators" title="Custom field creators" parent="app-builder-models-views-models" action="app.builder.models.views.custom.field.creators" order="15"/>
   
   <action-view name="app.builder.models.views.custom.field.creators" title="Custom field creators" model="com.axelor.studio.db.JsonCreator">
     <view type="grid" name="json-creator-grid"/>
     <view type="form" name="json-creator-form"/>
   </action-view>
   
+  <menuitem name="app-builder-models-views-view-builders" title="View builders" parent="app-builder-models-views" order="20"/>
   
- 
+  <menuitem name="app-builder-models-views-view-builder-kanaban" title="Kanban builder" parent="app-builder-models-views-view-builders" action="app.builder.models.views.view.builder.kanaban" order="10"/>
+  
+  <action-view name="app.builder.models.views.view.builder.kanaban" title="Kanban builder" model="com.axelor.studio.db.ViewBuilder">
+  	<view type="grid" name="view-builder-grid"/>
+  	<view type="form" name="view-builder-kanban-form"/>
+  	<view-param name="forceTitle" value="true"/>
+  	<domain>self.viewType = :_viewType</domain>
+  	<context name="_viewType" expr="eval:'kanban'" />
+  </action-view>
+  
+  <menuitem name="app-builder-models-views-view-builder-calendar" title="Calendar builder" parent="app-builder-models-views-view-builders" action="app.builder.models.views.view.builder.calendar" order="20"/>
+  
+  <action-view name="app.builder.models.views.view.builder.calendar" title="Calendar builder" model="com.axelor.studio.db.ViewBuilder">
+  	<view type="grid" name="view-builder-grid"/>
+  	<view type="form" name="view-builder-calendar-form"/>
+  	<view-param name="forceTitle" value="true"/>
+  	<domain>self.viewType = :_viewType</domain>
+  	<context name="_viewType" expr="eval:'calendar'" />
+  </action-view>
+  
+  <menuitem name="app-builder-models-views-view-builder-cards" title="Cards builder" parent="app-builder-models-views-view-builders" action="app.builder.models.views.view.builder.cards" order="30"/>
+  
+  <action-view name="app.builder.models.views.view.builder.cards" title="Cards builder" model="com.axelor.studio.db.ViewBuilder">
+  	<view type="grid" name="view-builder-grid"/>
+  	<view type="form" name="view-builder-cards-form"/>
+  	<view-param name="forceTitle" value="true"/>
+  	<domain>self.viewType = :_viewType</domain>
+  	<context name="_viewType" expr="eval:'cards'" />
+  </action-view>
+  
  
   <!-- Workflow menus -->
   <menuitem name="app-builder-bpm" title="BPM" parent="app-builder-root"  order="10"/>
