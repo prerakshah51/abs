@@ -5,7 +5,6 @@
   
   <entity name="Partner" lang="java">
   	<string name="gstin" title="GSTIN" min="15" max="15" />
-	<string name="gstin" title="GSTIN" min="15" max="15" />
   </entity>
   
 </domain-models>
