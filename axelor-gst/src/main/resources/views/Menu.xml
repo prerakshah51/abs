@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+	
+	<menuitem name="gst-app" title="GST" if="__config__.app.isApp('gst')" icon="fa-calculator" icon-background="#e0a83c"/>
+	
+	<menuitem name="gst-app-partners" parent="gst-app" title="Partners"/>
+	
+	<menuitem name="gst-app-partners-partner" parent="gst-app-partners" title="Partner" action="referential.root.partners" />
+	
+	<action-view name="referential.root.partners" title="Partners"
+		model="com.axelor.apps.base.db.Partner" >
+		<view type="cards" name="partner-cards" />
+		<view type="grid" name="partner-grid" />
+		<view type="form" name="partner-form" />
+	  	<view-param name="limit" value="39"/>
+		<view-param name="search-filters" value="partner-filters"/>
+		<!-- <domain>self.curUser = null OR self.curUser = :user_id</domain> -->
+		<domain>self.isContact != true</domain>
+		<context name="user_id" expr="eval:__user__" />
+		<context name="json-enhance" expr="eval:true" />
+		<context name="_domain" expr="self.isContact != true"/>
+	</action-view>
+	
+	<menuitem name="gst-app-partners-contact" parent="gst-app-partners" title="Contact" action="referential.root.contacts" />
+	
+	<action-view name="referential.root.contacts" title="Contacts"
+		model="com.axelor.apps.base.db.Partner" >
+		<view type="cards" name="partner-contact-cards" />
+		<view type="grid" name="partner-contact-grid" />
+		<view type="form" name="partner-contact-form" />
+	  	<view-param name="limit" value="39"/>
+		<domain>self.isContact = true</domain>
+		<context name="_domain" expr="self.isContact = true"/>
+	</action-view>
+	
+	<menuitem name="gst-app-partners-configuration" parent="gst-app-partners" title="Configurations"/>
+	
+	<menuitem name="gst-app-partners-configuration-address" parent="gst-app-partners-configuration" title="Address" action="referential.conf.address"/>
+	
+	<action-view name="referential.conf.address" title="Addresses"
+		model="com.axelor.apps.base.db.Address" >
+		<view type="grid" name="address-grid" />
+		<view type="form" name="address-form" />
+		<context name="fromMain" expr="eval:true"/>
+		<context name="_duplicateFinderFields" expr=" addressL4;addressL6"/>
+	</action-view>
+	
+	<menuitem name="gst-app-partners-configuration-city" parent="gst-app-partners-configuration" title="City" action="admin.root.organisation.territory.city"/>
+	
+	<action-view name="admin.root.organisation.territory.city"
+		title="Cities" model="com.axelor.apps.base.db.City" >
+		<view type="grid" name="city-grid"/>
+		<view type="form" name="city-form"/>
+		<context name="_duplicateFinderFields" expr="name"/>
+	</action-view>
+	
+	<menuitem name="gst-app-partners-configuration-country" parent="gst-app-partners-configuration" title="Country" action="admin.root.organisation.country"/>
+	
+	<action-view name="admin.root.organisation.country"
+		title="Countries" model="com.axelor.apps.base.db.Country" >
+		<view type="grid" name="country-grid"/>
+		<view type="form" name="country-form"/>
+	</action-view>
+	
+	<menuitem name="gst-app-products" parent="gst-app" title="Products"/>
+	
+	<menuitem name="gst-app-products-product" parent="gst-app-products" title="Product" action="product.root.product" />
+	
+	<action-view name="product.root.product" title="Products"
+		model="com.axelor.apps.base.db.Product" >
+		<view type="cards" name="product-cards" />
+		<view type="grid" name="product-grid" />
+		<view type="form" name="product-form" />
+	  	<view-param name="limit" value="39"/>
+		<view-param name="search-filters" value="products-filters"/>
+		<domain>self.isModel = :_isModel AND self.productTypeSelect = :_productTypeSelect </domain>
+		<context name="_activeCompany" expr="eval:__user__.activeCompany"/>
+		<context name="_isModel" expr="false"/>
+		<context name="_productTypeSelect" expr="storable"/>
+	</action-view>
+	
+	<menuitem name="gst-app-products-productcategory" parent="gst-app-products" title="Product Category" action="referential.conf.product.category" />
+	
+	<action-view name="referential.conf.product.category" title="Product categories"
+		model="com.axelor.apps.base.db.ProductCategory" >
+		<view type="grid" name="product-category-grid"/>
+		<view type="form" name="product-category-form"/>
+	</action-view>
+	
+	<menuitem name="gst-app-companies" parent="gst-app" title="Companies"/>
+	
+	<menuitem name="gst-app-companies-company" parent="gst-app-companies" title="Company" action="admin.root.base.company" />
+
+	<action-view name="admin.root.base.company" title="Companies"
+		model="com.axelor.apps.base.db.Company" >
+		<view type="grid" name="company-grid"/>
+		<view type="form" name="company-form"/>
+	</action-view>
+	
+	<menuitem name="gst-app-companies-bankaccount" parent="gst-app-companies" title="Bank Account" action="referential.conf.invoice.rib"/>
+
+	<action-view name="referential.conf.invoice.rib"
+		title="Bank details" model="com.axelor.apps.base.db.BankDetails" >
+		<view type="grid" name="bank-details-grid"/>
+		<view type="form" name="bank-details-form"/>
+	</action-view>
+	
+	<menuitem name="gst-app-companies-sequence" parent="gst-app-companies" title="Sequence" action="admin.root.general.sequence.generic" />
+
+	<action-view name="admin.root.general.sequence.generic"
+		title="Sequences" model="com.axelor.apps.base.db.Sequence" >
+		<view type="grid" name="sequence-grid"/>
+		<view type="form" name="sequence-form"/>
+	</action-view>
+	
+	<menuitem name="gst-app-invoices" parent="gst-app" title="Invoices"/>
+	
+	<menuitem name="gst-app-invoices-cust" parent="gst-app-invoices" title="Customer Invoice" action="invoice.root.custinvoices" />
+
+	<action-view name="invoice.root.custinvoices" title="Cust. Invoices"
+		model="com.axelor.apps.account.db.Invoice">
+		<view type="grid" name="invoice-grid"/>
+		<view type="form" name="invoice-form"/>
+		<view-param name="search-filters" value="customer-invoices-filters"/>
+		<domain>self.operationTypeSelect = 3</domain>
+		<context name="_operationTypeSelect" expr="eval:3"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate()" />
+	</action-view>
+	
+	<menuitem name="gst-app-invoices-supp" parent="gst-app-invoices" title="Supplier Invoice" action="invoice.root.purchase.supinvoices" />
+	
+	<action-view name="invoice.root.purchase.supinvoices" title="Suppl. Invoices"
+		model="com.axelor.apps.account.db.Invoice" >
+		<view type="grid" name="invoice-supplier-grid"/>
+		<view type="form" name="invoice-form"/>
+		<view-param name="search-filters" value="supplier-invoices-filters"/>
+		<domain>self.operationTypeSelect = 1</domain>
+		<context name="_operationTypeSelect" expr="eval:1"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate()" />
+	</action-view>
+	
+</object-views>
