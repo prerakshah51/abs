@@ -7,6 +7,7 @@
    		<toolbar>
         	<button name="catalog" title="Catalog" onClick="action-print-product-catalog" icon="fa-book"/>
 			<button name="checkDuplicate" title="Check Duplicate" onClick="action-general-check-duplicate-records"/>
+			<button name="createInvoice" title="Create Invoice" onClick=""/>
 	    </toolbar>
 	    <field name="code" x-bind="{{code|unaccent|uppercase}}" width="100"/>
 	    <field name="name" width="300"/>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+   
+    <grid name="gst-invoice-line-tax-grid" title="Tax Lines" model="com.axelor.apps.account.db.InvoiceLineTax">
+		<field name="taxLine" width="400%" grid-view="tax-line-grid" form-view="tax-line-form"/>
+		<field name="exTaxBase"/>
+		<field name="taxTotal" aggregate="sum"/>
+		<field name="netAmount"/>
+		<field name="netIgst"/>
+		<field name="netCgst"/>
+		<field name="netSgst"/>
+		<field name="grossAmount"/>
+    </grid>
+    
+    <form name="gst-invoice-line-tax-form" title="Tax Line" model="com.axelor.apps.account.db.InvoiceLineTax"  >
+    	<panel name="main" >
+    		<field name="taxLine" grid-view="tax-line-grid" form-view="tax-line-form"/>
+			<field name="taxLine.tax.name"/>
+			<field name="taxLine.value"/>
+			<field name="exTaxBase"/>
+			<field name="taxTotal"/>
+			<field name="inTaxTotal"/>
+			<field name="netAmount"/>
+			<field name="netIgst"/>
+			<field name="netCgst"/>
+			<field name="netSgst"/>
+			<field name="grossAmount"/>
+    	</panel>
+    </form>
+    
+</object-views>
