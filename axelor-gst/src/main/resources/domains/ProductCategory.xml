@@ -3,8 +3,8 @@
   
   <module name="base" package="com.axelor.apps.base.db"/>
   
-  <entity name="Partner" lang="java">
-  	<string name="gstin" title="GSTIN" min="15" max="15" />
+  <entity name="ProductCategory" lang="java">
+  	<decimal name="gstRate" title="GST Rate"/> 	
   </entity>
   
 </domain-models>
