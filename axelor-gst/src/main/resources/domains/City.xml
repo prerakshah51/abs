@@ -3,13 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
 
-	<module name="account" package="com.axelor.apps.account.db" />
+	<module name="base" package="com.axelor.apps.base.db" />
 
-	<entity name="InvoiceLine" lang="java">
-		<string name="hsbn" title="HSBN" />
-		<decimal name="igst" title="IGST" readonly="true" />
-		<decimal name="sgst" title="SGST" readonly="true" />
-		<decimal name="cgst" title="CGST" readonly="true" />
+	<entity name="City" lang="java">
+		<many-to-one name="state" ref="State" title="State"/>
 	</entity>
 
 </domain-models>

@@ -7,7 +7,7 @@
    		<toolbar>
         	<button name="catalog" title="Catalog" onClick="action-print-product-catalog" icon="fa-book"/>
 			<button name="checkDuplicate" title="Check Duplicate" onClick="action-general-check-duplicate-records"/>
-			<button name="createInvoice" title="Create Invoice" onClick=""/>
+			<button name="createInvoice" title="Create Invoice" onClick="action-gst-product-method-create-invoice"/>
 	    </toolbar>
 	    <field name="code" x-bind="{{code|unaccent|uppercase}}" width="100"/>
 	    <field name="name" width="300"/>
@@ -143,9 +143,9 @@
 	      		<panel-related field="supplierCatalogList" form-view="supplier-catalog-form" grid-view="supplier-catalog-grid" title="Suppliers catalog" showIf="purchasable" colSpan="12"
 	      		if-module="axelor-purchase" if="__config__.app.isApp('purchase')"/>
 	    	</panel>
-	    	<panel name="accounting" title="GST Details">
+	    	<panel name="gst" title="GST Details">
                 <field name="hsbn" colSpan="6"/>
-                <field name="gstRate" colSpan="6"/>
+                <field name="gstRate" colSpan="6" readonly="true"/>
             </panel>
             <panel name="accounting" title="Accounting">
                 <field name="isAnalyticCapture" colSpan="6" if-module="axelor-account" if="__config__.app.isApp('account')"/>
@@ -289,5 +289,9 @@
 		]]>
 		</template>
 	</cards>
+	
+	<action-method name="action-gst-product-method-create-invoice">
+		<call class="com.axelor.apps.gst.web.GSTProductController" method="getGstProductToInvoiceLine"/>
+	</action-method>
 	
 </object-views>

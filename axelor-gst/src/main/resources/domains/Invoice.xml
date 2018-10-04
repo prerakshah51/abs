@@ -5,11 +5,10 @@
 
 	<module name="account" package="com.axelor.apps.account.db" />
 
-	<entity name="InvoiceLine" lang="java">
-		<string name="hsbn" title="HSBN" />
-		<decimal name="igst" title="IGST" readonly="true" />
-		<decimal name="sgst" title="SGST" readonly="true" />
-		<decimal name="cgst" title="CGST" readonly="true" />
+	<entity name="Invoice" lang="java">
+		<decimal name="netIgst" title="Net IGST" readonly="true" />
+		<decimal name="netCgst" title="Net CGST" readonly="true" />
+		<decimal name="netSgst" title="Net SGST" readonly="true" />
 	</entity>
 
 </domain-models>

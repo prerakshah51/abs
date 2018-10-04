@@ -72,7 +72,7 @@
     </grid>
 
     <form name="gst-invoice-form" title="Invoice" model="com.axelor.apps.account.db.Invoice"
-          onNew="action-account-invoice-onnew-group"
+          onNew="action-account-invoice-onnew-group,action-gst-invoice-method-create-invoice"
           onLoad="action-account-invoice-onload-group">
 
         <menubar>
@@ -161,10 +161,15 @@
         	<field name="subscriptionToDate" />
         </panel>
 
-		<panel-tabs hideIf="partner == null">
+		<panel-tabs>
 			<panel name="invoiceContent" title="Invoice content" showTitle="false">
-				<panel-related field="invoiceLineList" canNew="statusSelect == 1" canRemove="statusSelect == 1" readonlyIf="statusSelect == 3 || partner == null" colSpan="12" form-view="gst-invoice-line-form" grid-view="gst-invoice-line-grid" onChange="action-invoice-method-compute" canMove="true" orderBy="sequence"/>
+				<panel-related field="invoiceLineList" canNew="statusSelect == 1" canRemove="statusSelect == 1" readonlyIf="statusSelect == 3 || partner == null" colSpan="12" form-view="gst-invoice-line-form" grid-view="gst-invoice-line-grid" onChange="action-invoice-method-compute,action-test" canMove="true" orderBy="sequence"/>
 				<panel-related field="invoiceLineTaxList" colSpan="12" form-view="gst-invoice-line-tax-form" grid-view="gst-invoice-line-tax-grid"/>
+				<panel colSpan="12">
+					<field name="netCgst" colSpan="4"/>
+					<field name="netSgst" colSpan="4"/>
+					<field name="netIgst" colSpan="4"/>
+				</panel>
 			</panel>
 			<panel name="accounting" title="Accounting" showTitle="false">
 				<panel name="accountingDetails" title="Accounting details"  colSpan="12">
@@ -344,5 +349,13 @@
 			<mail-followers />
 		</panel-mail>
 	</form>
+	
+	<action-method name="action-gst-invoice-method-create-invoice">
+		<call class="com.axelor.apps.gst.web.GSTProductController" method="setGstProductToInvoiceLine"/>
+	</action-method>
+	
+	<action-method name="action-test">
+		<call class="com.axelor.apps.gst.web.GSTInvoiceController" method="computeInvoiceGstValues"/>
+	</action-method>
 
 </object-views>

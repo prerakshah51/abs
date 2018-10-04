@@ -13,6 +13,9 @@
         <field name="exTaxTotal" aggregate="sum"/>
 	    <field name="inTaxTotal" aggregate="sum"/>
 	    <field name="isTitleLine" hidden="true"/>
+	    <field name="igst"/>
+	    <field name="cgst"/>
+	    <field name="sgst"/>
     </grid>
 
 	<form name="gst-invoice-line-form" title="Invoice line" model="com.axelor.apps.account.db.InvoiceLine" width="large"
@@ -24,7 +27,7 @@
 		</panel>
 		<panel-tabs hideIf="isTitleLine">
 			<panel name="informations" title="Information">
-				<field name="product" canEdit="false" onChange="action-group-account-invoice-line-product-onchange" form-view="product-form" grid-view="product-grid" domain="self.isModel = false"/>
+				<field name="product" canEdit="false" onChange="action-group-account-invoice-line-product-onchange,action-gst-invoice-line-method-set-fields" form-view="product-form" grid-view="product-grid" domain="self.isModel = false"/>
 				<field name="isTitleLine" colOffset="4" colSpan="2" onChange="action-invoice-line-method-empty-line" widget="boolean-switch"/>
 				<field name="productName" colSpan="12" requiredIf="!isTitleLine"/>
 				<field name="qty" colSpan="3" required="true" onChange="action-group-account-invoice-line-qty-onchange"/>
@@ -44,12 +47,9 @@
         		<field name="companyExTaxTotal" hidden="true"/>
       			<field name="companyInTaxTotal" hidden="true"/>
       			<field name="hsbn"/>
-      			<field name="netAmount"/>
-      			<field name="gstRate"/>
       			<field name="igst"/>
       			<field name="sgst"/>
       			<field name="cgst"/>
-      			<field name="grossAmount"/>
 				<panel title="Description" colSpan="12">
 					<field name="description" showTitle="false" colSpan="12" widget="html" x-lite="true"/>
 				</panel>
@@ -77,4 +77,7 @@
 		</panel-tabs>
 	</form>
 
+	<action-method name="action-gst-invoice-line-method-set-fields">
+		<call class="com.axelor.apps.gst.web.GSTInvoiceLineController" method="computeInvoiceLineGstValues"/>
+	</action-method>
 </object-views>

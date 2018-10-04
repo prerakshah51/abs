@@ -4,7 +4,7 @@
   <module name="base" package="com.axelor.apps.base.db"/>
   
   <entity name="Product" lang="java">
-  	<decimal name="gstRate" title="GST Rate"></decimal>
+  	<decimal name="gstRate" title="GST Rate"/>
   	<string name="hsbn" title="HSBN"/>
   </entity>
   
