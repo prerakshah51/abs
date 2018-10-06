@@ -35,9 +35,9 @@
 		<context name="_domain" expr="self.isContact = true"/>
 	</action-view>
 	
-	<menuitem name="gst-app-partners-configuration" parent="gst-app-partners" title="Configurations"/>
+	<menuitem name="gst-app-partners-configuration" parent="gst-app-partners" title="Configurations" icon="fa-cog"/>
 	
-	<menuitem name="gst-app-partners-configuration-address" parent="gst-app-partners-configuration" title="Address" action="gst.referential.conf.address"/>
+	<menuitem name="gst-app-partners-configuration-address" parent="gst-app-partners-configuration" title="Addresses" action="gst.referential.conf.address"/>
 	
 	<action-view name="gst.referential.conf.address" title="Addresses"
 		model="com.axelor.apps.base.db.Address" >
@@ -47,7 +47,7 @@
 		<context name="_duplicateFinderFields" expr=" addressL4;addressL6"/>
 	</action-view>
 	
-	<menuitem name="gst-app-partners-configuration-city" parent="gst-app-partners-configuration" title="City" action="gst.admin.root.organisation.territory.city"/>
+	<menuitem name="gst-app-partners-configuration-city" parent="gst-app-partners-configuration" title="Cities" action="gst.admin.root.organisation.territory.city"/>
 	
 	<action-view name="gst.admin.root.organisation.territory.city"
 		title="Cities" model="com.axelor.apps.base.db.City" >
@@ -60,12 +60,12 @@
 
 	<action-view name="gst.root.organisation.territory.state"
 		title="States" model="com.axelor.apps.base.db.State" >
-		<view type="grid" name="state-grid"/>
-		<view type="form" name="state-form"/>
+		<view type="grid" name="gst-state-grid"/>
+		<view type="form" name="gst-state-form"/>
 		<context name="_duplicateFinderFields" expr="name"/>
 	</action-view>
 	
-	<menuitem name="gst-app-partners-configuration-country" parent="gst-app-partners-configuration" title="Country" action="gst.admin.root.organisation.country"/>
+	<menuitem name="gst-app-partners-configuration-country" parent="gst-app-partners-configuration" title="Countries" action="gst.admin.root.organisation.country"/>
 	
 	<action-view name="gst.admin.root.organisation.country"
 		title="Countries" model="com.axelor.apps.base.db.Country" >
@@ -90,12 +90,12 @@
 		<context name="_productTypeSelect" expr="storable"/>
 	</action-view>
 	
-	<menuitem name="gst-app-products-productcategory" parent="gst-app-products" title="Product Category" action="gst.referential.conf.product.category" />
+	<menuitem name="gst-app-products-productcategory" parent="gst-app-products" title="Product Categories" action="gst.referential.conf.product.category" />
 	
 	<action-view name="gst.referential.conf.product.category" title="Product categories"
 		model="com.axelor.apps.base.db.ProductCategory" >
-		<view type="grid" name="gst-product-category-grid"/>
-		<view type="form" name="gst-product-category-form"/>
+		<view type="grid" name="product-category-grid"/>
+		<view type="form" name="product-category-form"/>
 	</action-view>
 	
 	<menuitem title="Product Families" name="gst-app-products-productfamily" parent="gst-app-products" action="gst.referential.conf.product.family"/>

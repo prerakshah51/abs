@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoiceLine;
+import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.base.db.repo.ProductBaseRepository;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rpc.ActionRequest;
@@ -28,10 +29,11 @@ public class GSTProductController {
         invoiceLine.setProduct(productBaseRepo.find(temp));
         invoiceLineList.add(invoiceLine);
         invoiceLine.setHsbn(productBaseRepo.find(temp).getHsbn());
-        // invoiceLine.setGstRate(productBaseRepo.find(temp).getGstRate());
         invoiceLine.setPrice(productBaseRepo.find(temp).getSalePrice());
-        invoiceLine.setProductName(productBaseRepo.find(temp).getName()
-            .concat("[" + productBaseRepo.find(temp).getCode() + "]"));
+        invoiceLine.setProductName(productBaseRepo.find(temp).getName());
+        invoiceLine.setUnit(productBaseRepo.find(temp).getUnit());
+        invoiceLine.setTaxLine(productBaseRepo.find(temp).getProductFamily()
+            .getAccountManagementList().get(0).getPurchaseTax().getActiveTaxLine());
         i++;
       }
       response.setView(ActionView.define("Create Invoice").model(Invoice.class.getName())
@@ -44,6 +46,14 @@ public class GSTProductController {
   public void setGstProductToInvoiceLine(ActionRequest request, ActionResponse response) {
     @SuppressWarnings("unchecked")
     List<Integer> invoiceLineList = (List<Integer>) request.getContext().get("invoiceitem");
+    response.setValue("operationTypeSelect", InvoiceRepository.OPERATION_TYPE_CLIENT_SALE);
     response.setValue("invoiceLineList", invoiceLineList);
   }
+
+  // public void setGstRate(ActionRequest request, ActionResponse response) {
+  // Product product = request.getContext().asType(Product.class);
+  // BigDecimal gstRate = product.getProductFamily().getAccountManagementList().get(0).getSaleTax()
+  // .getActiveTaxLine().getValue();
+  // response.setValue("gstRate", gstRate);
+  // }
 }

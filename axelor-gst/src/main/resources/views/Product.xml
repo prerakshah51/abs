@@ -126,7 +126,7 @@
 			        <field name="purchasable" colSpan="12"/>
 			        <field name="purchasePrice" showIf="purchasable" colSpan="6"/>
 			        <field name="purchaseCurrency" canEdit="false" showIf="purchasable" colSpan="6" form-view="currency-form" grid-view="currency-grid"/>
-			        <field name="defaultSupplierPartner" canEdit="false" showIf="purchasable" colSpan="6" domain="self.isContact = false AND self.isSupplier = true" form-view="partner-form" grid-view="partner-grid"/>
+			        <field name="defaultSupplierPartner" canEdit="false" showIf="purchasable" colSpan="6" domain="self.isContact = false AND self.isSupplier = true" form-view="gst-partner-form" grid-view="gst-partner-grid"/>
 			        <field name="supplierDeliveryTime" showIf="purchasable" colSpan="6"/>
                     <panel title="Multiple quantities" colSpan="12" if="__config__.app.getApp('purchase')?.getManageMultiplePurchaseQuantity()">
 						<field name="allowToForcePurchaseQty"/>
@@ -220,7 +220,7 @@
 					            <field name="productVariantValue4" showTitle="false" showIf="productVariantAttr4" widget="SuggestBox" form-view="product-variant-value-form" grid-view="product-variant-value-grid"/>
 				          </editor>
 	        			</field>
-	        			<field name="parentProduct" canEdit="false" form-view="product-form" grid-view="product-grid"/>
+	        			<field name="parentProduct" canEdit="false" form-view="gst-product-form" grid-view="gst-product-grid"/>
 	        			<panel-dashlet colSpan="12" action="action-product-view-other-product-variant" showIf="parentProduct" />
 	      			</panel>
 	      			<button name="updateProductsPrices" title="Update products prices" onClick="save,action-product-method-update-products-prices"/>
@@ -293,5 +293,9 @@
 	<action-method name="action-gst-product-method-create-invoice">
 		<call class="com.axelor.apps.gst.web.GSTProductController" method="getGstProductToInvoiceLine"/>
 	</action-method>
+	
+<!-- 	<action-method name="action-gst-product-method-set-gstrate">
+		<call class="com.axelor.apps.gst.web.GSTProductController" method="setGstRate"/>
+	</action-method> -->
 	
 </object-views>

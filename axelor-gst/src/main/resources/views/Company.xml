@@ -18,11 +18,11 @@
 			<panel colSpan="8">
 		    	<field name="name"/>
 			    <field name="code" x-bind="{{code|unaccent|uppercase}}" />
-			    <field name="parent" form-view="company-form" grid-view="company-grid"/>
-			    <field name="partner" canNew="true" domain="self.isContact = false" form-view="partner-form" grid-view="partner-grid"/>
-			    <field name="gstin"></field>
+			    <field name="parent" form-view="gst-company-form" grid-view="gst-company-grid"/>
+			    <field name="partner" canNew="true" domain="self.isContact = false" form-view="gst-partner-form" grid-view="gst-partner-grid"/>
+			    <field name="gstin"/>
 		    </panel>
-		    <field name="address" canNew="true" colSpan="12" form-view="address-form" grid-view="address-grid"/>
+		    <field name="address" canNew="true" colSpan="12" form-view="gst-address-form" grid-view="gst-address-grid"/>
 	  	</panel>
 	  
 	  	<panel sidebar="true" name="modulesConfigurations" title="Modules configurations" hideIf="$popup()">

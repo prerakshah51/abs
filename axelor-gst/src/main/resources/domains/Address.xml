@@ -5,8 +5,8 @@
 
 	<module name="base" package="com.axelor.apps.base.db" />
 
-	<entity name="City" lang="java">
-		<many-to-one name="state" ref="com.axelor.apps.base.db.State" title="State" />
+	<entity name="Address" lang="java">
+		<many-to-one name="state" ref="State" title="State"/>
 	</entity>
 
 </domain-models>

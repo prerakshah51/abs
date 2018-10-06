@@ -22,9 +22,9 @@
 	    <hilite color="warning" if="statusSelect == 3 &amp;&amp; amountRemaining &gt; 0 &amp;&amp; $moment(dueDate).diff(todayDate,'days') &gt;= 0 &amp;&amp; $moment(dueDate).diff(todayDate,'days') &lt;= 5"/>
 	    <hilite color="success" if="statusSelect == 3 &amp;&amp; amountRemaining == 0"/>
         <field name="invoiceId"/>
-		<field name="company" form-view="company-form" grid-view="company-grid" widget="200"/>
+		<field name="company" form-view="gst-company-form" grid-view="gst-company-grid" widget="200"/>
 		<field name="tradingName" form-view="trading-name-form" grid-view="trading-name-grid" if="__config__.app.getApp('base').enableTradingNamesManagement" widget="200"/>
-        <field name="partner" form-view="partner-form" grid-view="partner-grid" width="200"/>
+        <field name="partner" form-view="gst-partner-form" grid-view="gst-partner-grid" width="200"/>
 		<field name="operationTypeSelect" width="160"/>
 		<field name="operationSubTypeSelect" widget="160"/>
 		<field name="paymentMode" grid-view="payment-mode-grid" form-view="payment-mode-form" width="160"/>
@@ -58,7 +58,7 @@
         <field name="externalReference"/>
 		<field name="operationTypeSelect"/>
 		<field name="operationSubTypeSelect"/>
-        <field name="partner" form-view="partner-form" grid-view="partner-grid"/>
+        <field name="partner" form-view="gst-partner-form" grid-view="gst-partner-grid"/>
         <field name="paymentMode" grid-view="payment-mode-grid" form-view="payment-mode-form"/>
         <field name="invoiceDate"/>
         <field name="dueDate"/>
@@ -129,7 +129,7 @@
                     onChange="action-group-account-invoice-operationtype-onchange" selection-in="[3,4]"/>
             </panel>
             <field name="operationSubTypeSelect" hideIf="statusSelect &gt; 1 || (operationTypeSelect != 1 &amp;&amp; operationTypeSelect != 3) || $readonly()" showTitle="true"/>
-            <field name="company" canEdit="false" readonlyIf="statusSelect != 1 || partner != null" onChange="action-group-account-invoice-company-onchange" form-view="company-form" grid-view="company-grid"/>
+            <field name="company" canEdit="false" readonlyIf="statusSelect != 1 || partner != null" onChange="action-group-account-invoice-company-onchange" form-view="gst-company-form" grid-view="gst-company-grid"/>
             <field name="tradingName" canEdit="false" grid-view="trading-name-grid" form-view="trading-name-form" if="__config__.app.getApp('base').enableTradingNamesManagement" readonlyIf="statusSelect != 1" domain=":company MEMBER OF self.companySet" onChange="action-invoice-method-printing-settings-default-values"/>
             <field name="companyBankDetails" onSelect="com.axelor.apps.base.web.CompanyBankDetailsController:fillCompanyBankDetailsDomain" form-view="bank-details-form" grid-view="bank-details-grid"/>
             <field name="currency" canEdit="false" onChange="action-invoice-group-currency-onchange" readonlyIf="statusSelect != 1" form-view="currency-form" grid-view="currency-grid"/>
@@ -139,8 +139,8 @@
         </panel>
 
         <panel title="Invoicing informations" hideIf="company == null">
-            <field name="partner" readonlyIf="statusSelect != 1 || invoiceLineList.length > 0" onChange="action-group-account-invoice-partner-onchange,action-method-invoice-address-str" onSelect="action-set-partner-domain" form-view="partner-form" grid-view="partner-grid"/>
-            <field name="contactPartner" onSelect="action-set-partner-domain" domain="self.isContact = true" readonlyIf="partner != null &amp;&amp; partner.partnerTypeSelect == 2" form-view="partner-contact-form" grid-view="partner-contact-grid"/>
+            <field name="partner" readonlyIf="statusSelect != 1" onChange="action-group-account-invoice-partner-onchange,action-method-invoice-address-str" onSelect="action-set-partner-domain" form-view="gst-partner-form" grid-view="gst-partner-grid"/>
+            <field name="contactPartner" onSelect="action-set-partner-domain" domain="self.isContact = true" readonlyIf="partner != null &amp;&amp; partner.partnerTypeSelect == 2" form-view="gst-partner-contact-form" grid-view="gst-partner-contact-grid"/>
             <panel stacked="true">
                 <field name="address" hideIf="$readonly() || statusSelect &gt; 1" onSelect="action-invoice-attrs-domain-address" onChange="action-method-invoice-address-str" canEdit="false" canNew="true" form-view="address-partner-address-form" grid-view="address-grid"/>
                 <field name="addressStr" readonlyIf="statusSelect &gt; 1" height="5">
@@ -163,7 +163,7 @@
 
 		<panel-tabs>
 			<panel name="invoiceContent" title="Invoice content" showTitle="false">
-				<panel-related field="invoiceLineList" canNew="statusSelect == 1" canRemove="statusSelect == 1" readonlyIf="statusSelect == 3 || partner == null" colSpan="12" form-view="gst-invoice-line-form" grid-view="gst-invoice-line-grid" onChange="action-invoice-method-compute,action-test" canMove="true" orderBy="sequence"/>
+				<panel-related field="invoiceLineList" canNew="statusSelect == 1" canRemove="statusSelect == 1" readonlyIf="statusSelect == 3 || partner == null" colSpan="12" form-view="gst-invoice-line-form" grid-view="gst-invoice-line-grid" onChange="action-invoice-method-compute,action-gst-invoice-method-compute-invoice-gst" canMove="true" orderBy="sequence"/>
 				<panel-related field="invoiceLineTaxList" colSpan="12" form-view="gst-invoice-line-tax-form" grid-view="gst-invoice-line-tax-grid"/>
 				<panel colSpan="12">
 					<field name="netCgst" colSpan="4"/>
@@ -354,7 +354,7 @@
 		<call class="com.axelor.apps.gst.web.GSTProductController" method="setGstProductToInvoiceLine"/>
 	</action-method>
 	
-	<action-method name="action-test">
+	<action-method name="action-gst-invoice-method-compute-invoice-gst">
 		<call class="com.axelor.apps.gst.web.GSTInvoiceController" method="computeInvoiceGstValues"/>
 	</action-method>
 

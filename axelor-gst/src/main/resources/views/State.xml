@@ -3,12 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
    
-    <grid name="state-grid" title="States" model="com.axelor.apps.base.db.State">
+    <grid name="gst-state-grid" title="States" model="com.axelor.apps.base.db.State">
         <field name="name"/>
 		<field name="country"/>
     </grid>
     
-    <form name="state-form" title="State" model="com.axelor.apps.base.db.State" width="large">
+    <form name="gst-state-form" title="State" model="com.axelor.apps.base.db.State" width="large">
     	<panel name="main">
 			<field name="name"/>
 		</panel>
