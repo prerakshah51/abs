@@ -1,10 +1,10 @@
 package com.axelor.apps.gst.web;
 
-import java.math.BigDecimal;
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import java.math.BigDecimal;
 
 public class GSTInvoiceLineController {
 

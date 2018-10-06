@@ -11,9 +11,9 @@
 	
 	<action-view name="gst.referential.root.partners" title="Partners"
 		model="com.axelor.apps.base.db.Partner" >
-		<view type="cards" name="gst-partner-cards" />
-		<view type="grid" name="gst-partner-grid" />
-		<view type="form" name="gst-partner-form" />
+		<view type="cards" name="partner-cards" />
+		<view type="grid" name="partner-grid" />
+		<view type="form" name="partner-form" />
 	  	<view-param name="limit" value="39"/>
 		<view-param name="search-filters" value="partner-filters"/>
 		<!-- <domain>self.curUser = null OR self.curUser = :user_id</domain> -->
@@ -27,9 +27,9 @@
 	
 	<action-view name="gst.referential.root.contacts" title="Contacts"
 		model="com.axelor.apps.base.db.Partner" >
-		<view type="cards" name="gst-partner-contact-cards" />
-		<view type="grid" name="gst-partner-contact-grid" />
-		<view type="form" name="gst-partner-contact-form" />
+		<view type="cards" name="partner-contact-cards" />
+		<view type="grid" name="partner-contact-grid" />
+		<view type="form" name="partner-contact-form" />
 	  	<view-param name="limit" value="39"/>
 		<domain>self.isContact = true</domain>
 		<context name="_domain" expr="self.isContact = true"/>
@@ -41,8 +41,8 @@
 	
 	<action-view name="gst.referential.conf.address" title="Addresses"
 		model="com.axelor.apps.base.db.Address" >
-		<view type="grid" name="gst-address-grid" />
-		<view type="form" name="gst-address-form" />
+		<view type="grid" name="address-grid" />
+		<view type="form" name="address-form" />
 		<context name="fromMain" expr="eval:true"/>
 		<context name="_duplicateFinderFields" expr=" addressL4;addressL6"/>
 	</action-view>
@@ -51,8 +51,8 @@
 	
 	<action-view name="gst.admin.root.organisation.territory.city"
 		title="Cities" model="com.axelor.apps.base.db.City" >
-		<view type="grid" name="gst-city-grid"/>
-		<view type="form" name="gst-city-form"/>
+		<view type="grid" name="city-grid"/>
+		<view type="form" name="city-form"/>
 		<context name="_duplicateFinderFields" expr="name"/>
 	</action-view>
 	
@@ -60,8 +60,8 @@
 
 	<action-view name="gst.root.organisation.territory.state"
 		title="States" model="com.axelor.apps.base.db.State" >
-		<view type="grid" name="gst-state-grid"/>
-		<view type="form" name="gst-state-form"/>
+		<view type="grid" name="state-grid"/>
+		<view type="form" name="state-form"/>
 		<context name="_duplicateFinderFields" expr="name"/>
 	</action-view>
 	
@@ -79,9 +79,9 @@
 	
 	<action-view name="gst.product.root.product" title="Products"
 		model="com.axelor.apps.base.db.Product" >
-		<view type="cards" name="gst-product-cards" />
-		<view type="grid" name="gst-product-grid" />
-		<view type="form" name="gst-product-form" />
+		<view type="cards" name="product-cards" />
+		<view type="grid" name="product-grid" />
+		<view type="form" name="product-form" />
 	  	<view-param name="limit" value="39"/>
 		<view-param name="search-filters" value="products-filters"/>
 		<domain>self.isModel = :_isModel AND self.productTypeSelect = :_productTypeSelect </domain>
@@ -113,8 +113,8 @@
 
 	<action-view name="gst.admin.root.base.company" title="Companies"
 		model="com.axelor.apps.base.db.Company" >
-		<view type="grid" name="gst-company-grid"/>
-		<view type="form" name="gst-company-form"/>
+		<view type="grid" name="company-grid"/>
+		<view type="form" name="company-form"/>
 	</action-view>
 	
 	<menuitem name="gst-app-companies-bankaccount" parent="gst-app-companies" title="Bank Account" action="gst.referential.conf.invoice.rib"/>
@@ -139,8 +139,8 @@
 
 	<action-view name="gst.invoice.root.custinvoices" title="Cust. Invoices"
 		model="com.axelor.apps.account.db.Invoice">
-		<view type="grid" name="gst-invoice-grid"/>
-		<view type="form" name="gst-invoice-form"/>
+		<view type="grid" name="invoice-grid"/>
+		<view type="form" name="invoice-form"/>
 		<view-param name="search-filters" value="customer-invoices-filters"/>
 		<domain>self.operationTypeSelect = 3</domain>
 		<context name="_operationTypeSelect" expr="eval:3"/>
@@ -151,8 +151,8 @@
 	
 	<action-view name="gst.invoice.root.purchase.supinvoices" title="Suppl. Invoices"
 		model="com.axelor.apps.account.db.Invoice" >
-		<view type="grid" name="gst-invoice-supplier-grid"/>
-		<view type="form" name="gst-invoice-form"/>
+		<view type="grid" name="invoice-supplier-grid"/>
+		<view type="form" name="invoice-form"/>
 		<view-param name="search-filters" value="supplier-invoices-filters"/>
 		<domain>self.operationTypeSelect = 1</domain>
 		<context name="_operationTypeSelect" expr="eval:1"/>

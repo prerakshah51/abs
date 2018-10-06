@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
     
-    <grid name="gst-product-grid" title="Products" model="com.axelor.apps.base.db.Product" orderBy="code,name" x-row-height="80">
+    <grid name="product-grid" id="gst-product-grid" title="Products" model="com.axelor.apps.base.db.Product" orderBy="code,name" x-row-height="80">
    		<toolbar>
         	<button name="catalog" title="Catalog" onClick="action-print-product-catalog" icon="fa-book"/>
 			<button name="checkDuplicate" title="Check Duplicate" onClick="action-general-check-duplicate-records"/>
@@ -20,7 +20,7 @@
 	    <button name="sendByEmail" title="Send Email" icon="fa-envelope" onClick="action-send-by-email-with-template"/>
 	</grid>
 
-	<form name="gst-product-form" title="Product" model="com.axelor.apps.base.db.Product" 
+	<form name="product-form" id="gst-product-form" title="Product" model="com.axelor.apps.base.db.Product" 
 	onNew="action-group-base-product-onnew"
 	onLoad="action-group-product-onload" width="large">
  		<toolbar>
@@ -126,7 +126,7 @@
 			        <field name="purchasable" colSpan="12"/>
 			        <field name="purchasePrice" showIf="purchasable" colSpan="6"/>
 			        <field name="purchaseCurrency" canEdit="false" showIf="purchasable" colSpan="6" form-view="currency-form" grid-view="currency-grid"/>
-			        <field name="defaultSupplierPartner" canEdit="false" showIf="purchasable" colSpan="6" domain="self.isContact = false AND self.isSupplier = true" form-view="gst-partner-form" grid-view="gst-partner-grid"/>
+			        <field name="defaultSupplierPartner" canEdit="false" showIf="purchasable" colSpan="6" domain="self.isContact = false AND self.isSupplier = true" form-view="partner-form" grid-view="partner-grid"/>
 			        <field name="supplierDeliveryTime" showIf="purchasable" colSpan="6"/>
                     <panel title="Multiple quantities" colSpan="12" if="__config__.app.getApp('purchase')?.getManageMultiplePurchaseQuantity()">
 						<field name="allowToForcePurchaseQty"/>
@@ -143,7 +143,7 @@
 	      		<panel-related field="supplierCatalogList" form-view="supplier-catalog-form" grid-view="supplier-catalog-grid" title="Suppliers catalog" showIf="purchasable" colSpan="12"
 	      		if-module="axelor-purchase" if="__config__.app.isApp('purchase')"/>
 	    	</panel>
-	    	<panel name="gst" title="GST Details">
+	    	<panel if-module="axelor-gst" if="__config__.app.isApp('gst')" name="gst" title="GST Details">
                 <field name="hsbn" colSpan="6"/>
                 <field name="gstRate" colSpan="6" readonly="true"/>
             </panel>
@@ -220,7 +220,7 @@
 					            <field name="productVariantValue4" showTitle="false" showIf="productVariantAttr4" widget="SuggestBox" form-view="product-variant-value-form" grid-view="product-variant-value-grid"/>
 				          </editor>
 	        			</field>
-	        			<field name="parentProduct" canEdit="false" form-view="gst-product-form" grid-view="gst-product-grid"/>
+	        			<field name="parentProduct" canEdit="false" form-view="product-form" grid-view="product-grid"/>
 	        			<panel-dashlet colSpan="12" action="action-product-view-other-product-variant" showIf="parentProduct" />
 	      			</panel>
 	      			<button name="updateProductsPrices" title="Update products prices" onClick="save,action-product-method-update-products-prices"/>
@@ -260,7 +260,7 @@
     	</panel-mail>
 	</form>
 	
-	<cards name="gst-product-cards" title="Product" model="com.axelor.apps.base.db.Product" width="25%" css="rect-image" orderBy="code,name">
+	<cards name="product-cards" id="gst-product-cards" title="Product" model="com.axelor.apps.base.db.Product" width="25%" css="rect-image" orderBy="code,name">
 	    <toolbar>
         	<button name="catalog" title="Catalog" onClick="action-print-product-catalog" icon="fa-book"/>
 			<button name="checkDuplicate" title="Check Duplicate" onClick="action-general-check-duplicate-records"/>

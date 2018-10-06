@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
    
-    <grid name="gst-invoice-line-grid" title="Invoice lines" model="com.axelor.apps.account.db.InvoiceLine" >
+    <grid name="invoice-line-grid" id="gst-invoice-line-grid" title="Invoice lines" model="com.axelor.apps.account.db.InvoiceLine" >
        	<hilite color="default" strong="true" if="isTitleLine == true"/>
         <field name="productName"/>
         <field name="qty" aggregate="sum"/>
@@ -13,12 +13,12 @@
         <field name="exTaxTotal" aggregate="sum"/>
 	    <field name="inTaxTotal" aggregate="sum"/>
 	    <field name="isTitleLine" hidden="true"/>
-	    <field name="igst"/>
-	    <field name="cgst"/>
-	    <field name="sgst"/>
+	    <field if-module="axelor-gst" if="__config__.app.isApp('gst')" name="igst"/>
+	    <field if-module="axelor-gst" if="__config__.app.isApp('gst')" name="cgst"/>
+	    <field if-module="axelor-gst" if="__config__.app.isApp('gst')" name="sgst"/>
     </grid>
 
-	<form name="gst-invoice-line-form" title="Invoice line" model="com.axelor.apps.account.db.InvoiceLine" width="large"
+	<form name="invoice-line-form" id="gst-invoice-line-form" title="Invoice line" model="com.axelor.apps.account.db.InvoiceLine" width="large"
 		  onNew="action-account-invoice-line-onnew-group"
 		  onLoad="action-attrs-account-invoice-line-onnew-onload,action-invoice-line-attrs-readonly-form">
 		<panel hideIf="!isTitleLine">
@@ -27,7 +27,7 @@
 		</panel>
 		<panel-tabs hideIf="isTitleLine">
 			<panel name="informations" title="Information">
-				<field name="product" canEdit="false" onChange="action-group-account-invoice-line-product-onchange,action-gst-invoice-line-method-set-fields" form-view="gst-product-form" grid-view="gst-product-grid" domain="self.isModel = false"/>
+				<field name="product" canEdit="false" onChange="action-group-account-invoice-line-product-onchange,action-gst-invoice-line-method-set-fields" form-view="product-form" grid-view="product-grid" domain="self.isModel = false"/>
 				<field name="isTitleLine" colOffset="4" colSpan="2" onChange="action-invoice-line-method-empty-line" widget="boolean-switch"/>
 				<field name="productName" colSpan="12" requiredIf="!isTitleLine"/>
 				<field name="qty" colSpan="3" required="true" onChange="action-group-account-invoice-line-qty-onchange,action-gst-invoice-line-method-set-fields"/>
@@ -46,10 +46,10 @@
 				<field name="invoice" hidden="true" />
         		<field name="companyExTaxTotal" hidden="true"/>
       			<field name="companyInTaxTotal" hidden="true"/>
-      			<field name="hsbn"/>
-      			<field name="igst"/>
-      			<field name="sgst"/>
-      			<field name="cgst"/>
+      			<field if-module="axelor-gst" if="__config__.app.isApp('gst')" name="hsbn"/>
+      			<field if-module="axelor-gst" if="__config__.app.isApp('gst')" name="igst"/>
+      			<field if-module="axelor-gst" if="__config__.app.isApp('gst')" name="sgst"/>
+      			<field if-module="axelor-gst" if="__config__.app.isApp('gst')" name="cgst"/>
 				<panel title="Description" colSpan="12">
 					<field name="description" showTitle="false" colSpan="12" widget="html" x-lite="true"/>
 				</panel>

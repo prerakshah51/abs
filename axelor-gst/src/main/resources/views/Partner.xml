@@ -3,7 +3,7 @@
 			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-	<grid name="gst-partner-grid" title="Partners" model="com.axelor.apps.base.db.Partner" orderBy="name">
+	<grid name="partner-grid" id="gst-partner-grid" title="Partners" model="com.axelor.apps.base.db.Partner" orderBy="name">
 		<toolbar>
 			<button name="printPhoneBook" title="Contact PhoneBook" icon="fa-print" onClick="action-print-phonebook"/>
 			<button name="printCompanyPhoneBook" title="Company PhoneBook" icon="fa-print" onClick="action-print-company-phonebook" if="__config__.app.isApp('employee')"/>
@@ -20,7 +20,7 @@
 		<button name="sendByEmail" title="Send Email" icon="fa-envelope" onClick="action-send-by-email-with-template" if-module="axelor-crm" if="__config__.app.isApp('crm')"/>
 	</grid>
 
-	<grid name="gst-partner-contact-grid" title="Contacts" model="com.axelor.apps.base.db.Partner">
+	<grid name="partner-contact-grid" id="gst-partner-contact-grid" title="Contacts" model="com.axelor.apps.base.db.Partner">
 		<toolbar>
 			<button name="checkDuplicate" title="Check Duplicate" onClick="action-general-check-duplicate-records"/>
 			<button name="replaceDuplicate" title="Merge duplicated" onClick="action-validate-select-object-message,action-duplicate-object-wizard-open"/>
@@ -36,7 +36,7 @@
 		<button name="sendByEmail" title="Send Email" icon="fa-envelope" onClick="action-send-by-email-with-template" if-module="axelor-crm"  if="__config__.app.isApp('crm')"/>
 	</grid>
 
-	<form name="gst-partner-form"  title="Partner" model="com.axelor.apps.base.db.Partner"
+	<form name="partner-form" id="gst-partner-form" title="Partner" model="com.axelor.apps.base.db.Partner"
 		  onNew="action-group-base-partner-onnew"
 		  onLoad="action-group-partner-onload"
 		  onSave="action-partner-iban-check-on-save" width="large">
@@ -137,17 +137,17 @@
                 </panel>
 			</panel>
 		</panel>
-		<panel-related field="contactPartnerSet" hideIf="!id || isContact || partnerTypeSelect == 2" domain="self.isContact = 'true'" form-view="gst-partner-contact-form" grid-view="partner-contact-grid" />
+		<panel-related field="contactPartnerSet" hideIf="!id || isContact || partnerTypeSelect == 2" domain="self.isContact = 'true'" form-view="partner-contact-form" grid-view="partner-contact-grid" />
 		<panel-tabs>
 			<panel name="information" title="Information">
 				<panel name="employeeAddress" title="Contact address" colSpan="12" showIf="isEmployee">
-					<field name="contactAddress" form-view="gst-address-form" grid-view="gst-address-grid">
+					<field name="contactAddress" form-view="address-form" grid-view="address-grid">
 						<editor x-show-titles="false">
 							<field name="addressL2" x-bind="{{addressL2|uppercase}}" placeholder="e.g. Financial department, CEO"/>
 							<field name="addressL3" x-bind="{{addressL3|uppercase}}" placeholder="e.g. Building A, Entry 2, 2nd Floor, Door 2E"/>
 							<field name="addressL4" x-bind="{{addressL4|uppercase}}"/>
 							<field name="addressL5" x-bind="{{addressL5|uppercase}}" placeholder="e.g. POB 254"/>
-							<field name="city" canNew="true" onChange="action-address-change-city" form-view="gst-city-form" grid-view="gst-city-grid"/>
+							<field name="city" canNew="true" onChange="action-address-change-city" form-view="city-form" grid-view="city-grid"/>
 							<field name="addressL6" x-bind="{{addressL6|uppercase}}" required="true"/>
 							<field name="addressL7Country" required="true" form-view="country-form" grid-view="country-grid"/>
 						</editor>
@@ -158,7 +158,7 @@
 						<editor layout="table" x-show-titles="false" >
 							<label title="The following address is invalid. Please use '+' button to create a new one :" colSpan="12" css="label-bold" name="addressHelper" hidden="true" showIf="address == null || address.addressL4 == null" />
 							<field name="address.addressL4" hidden="true" colSpan="12"/>
-							<field name="address" form-view="gst-address-form" grid-view="gst-address-grid" colSpan="3" canNew="true"/>
+							<field name="address" form-view="address-form" grid-view="address-grid" colSpan="3" canNew="true"/>
 							<field name="isInvoicingAddr" widget="toggle" x-icon="fa-list-alt" colSpan="1" hideIf="$readonly()"/>
 							<field name="isDeliveryAddr" widget="toggle" x-icon="fa-shopping-cart" colSpan="1" hideIf="$readonly()" />
 							<field name="isDefaultAddr" widget="toggle" x-icon="fa-star-o" colSpan="1" hideIf="$readonly()"  />
@@ -183,14 +183,14 @@
 						<field name="source" canEdit="false" colSpan="6" widget="SuggestBox" form-view="source-form" grid-view="source-grid"/>
 						<field name="department" colSpan="6" hideIf="partnerTypeSelect== 2"/>
 					</panel>
-					<panel  colSpan="6">
-						<field name="gstin" colSpan="6"></field>
+					<panel colSpan="6">
+						<field if-module="axelor-gst" if="__config__.app.isApp('gst')" name="gstin" colSpan="6"></field>
 						<field name="saleTurnover" colSpan="6" hideIf="partnerTypeSelect== 2"/>
 						<field name="nbrEmployees" colSpan="6" hideIf="partnerTypeSelect== 2"/>
 						<field name="registrationCode" colSpan="6" hideIf="partnerTypeSelect== 2"/>
 						<field name="taxNbr" colSpan="6" hideIf="partnerTypeSelect== 2"/>
 						<field name="paymentDelay" if-module="axelor-cash-management"  if="__config__.app.isApp('cash-management')"/>
-						<field name="parentPartner" hideIf="partnerTypeSelect != 1" domain="self.isContact = false AND self.partnerTypeSelect = 1" colSpan="6" form-view="gst-partner-form"  grid-view="gst-partner-grid"/>
+						<field name="parentPartner" hideIf="partnerTypeSelect != 1" domain="self.isContact = false AND self.partnerTypeSelect = 1" colSpan="6" form-view="partner-form"  grid-view="partner-grid"/>
 						<field name="sellerCode" showIf="isFactor" if="__config__.app.isApp('account') &amp;&amp; __config__.app.getApp('account').getManageFactors()" />
 					</panel>
 				</panel>
@@ -199,7 +199,7 @@
 					<panel title="Assigned to" colSpan="12">
 						<field name="user" colSpan="6" form-view="user-form" grid-view="user-grid" hideIf="isEmployee" canNew="false" canEdit="false" canView="false"/>
 						<field name="team" canEdit="false" colSpan="6" form-view="team-form" grid-view="team-grid" if="__config__.app.getApp('base').getTeamManagement()" hideIf="isEmployee"/>
-						<field name="companySet" colSpan="12" widget="TagSelect" canNew="false" form-view="gst-company-form" grid-view="gst-company-grid"/>
+						<field name="companySet" colSpan="12" widget="TagSelect" canNew="false" form-view="company-form" grid-view="company-grid"/>
 					</panel>
 				</panel>
 				<panel name="notes" title="Notes" colSpan="12">
@@ -247,7 +247,7 @@
                 <spacer/>
                 <field name="shipmentMode" form-view="shipment-mode-form" grid-view="shipment-mode-grid" onChange="action-partner-record-empty-freight-carrier-mode" title="Shipment Mode"/>
                 <field name="freightCarrierMode" domain="self.shipmentMode = :shipmentMode" onChange="action-partner-record-freight-carrier" form-view="freight-carrier-mode-form" grid-view="freight-carrier-mode-grid" readonlyIf="shipmentMode == null" title="Freight Carrier Mode"/>
-                <field name="carrierPartner" form-view="gst-partner-form" grid-view="gst-partner-grid" title="Freight Carrier" readonly="true"/>
+                <field name="carrierPartner" form-view="partner-form" grid-view="partner-grid" title="Freight Carrier" readonly="true"/>
 				<field name="isIspmRequired" hidden="true" showIf="isCustomer || isProspect"/>
 				<field name="partnerStockSettingsList" colSpan="12"
 					   form-view="partner-stock-settings-form" grid-view="partner-stock-settings-grid"/>
@@ -263,7 +263,7 @@
         </panel-mail>
     </form>
 
-	<form name="gst-partner-contact-form" title="Contact" model="com.axelor.apps.base.db.Partner"
+	<form name="partner-contact-form" id="gst-partner-contact-form" title="Contact" model="com.axelor.apps.base.db.Partner"
 		  onNew="action-partner-contact-record-default"
 		  onLoad="action-partner-method-check-name,action-partner-attrs-change-name,action-partner-method-set-social-network-url"
 		  onSave="save,action-partner-method-set-user-partner,action-partner-method-add-contact-partner">
@@ -309,7 +309,7 @@
 				</field>
 				<static name="duplicatePartnerText" hidden="true" colSpan="12"><![CDATA[<span class='label label-warning'>There is already a partner with this name.</span>]]></static>
 				<panel name="company" title="Company" colSpan="12" >
-					<field name="mainPartner" domain="self.isContact = false" form-view="gst-partner-form" grid-view="gst-partner-grid"/>
+					<field name="mainPartner" domain="self.isContact = false" form-view="partner-form" grid-view="partner-grid"/>
 				</panel>
 				<field name="isContact" hidden="true" colSpan="12"/>
 			</panel>
@@ -326,7 +326,7 @@
 					</editor>
 				</field>
 				<field name="fax" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
-				<field name="contactAddress" title="Address" canNew="true" form-view="gst-address-form" grid-view="gst-address-grid" colSpan="12"/>
+				<field name="contactAddress" title="Address" canNew="true" form-view="address-form" grid-view="address-grid" colSpan="12"/>
 			</panel>
 			<panel name="activities" title="Activities" showIf="id != null" if-module="axelor-crm" onTabSelect="action-partner-method-view-emails-contact" if="__config__.app.isApp('crm')" >
 				<button name="showAllEvents" title="Show all events" css="btn-custom text-left" icon="fa-tasks" onClick="action-contact-view-events" readonlyIf="id == null"/>
@@ -342,7 +342,7 @@
 			<panel title="Assigned to" canCollapse="true" colSpan="12">
 				<field name="user" colSpan="6" form-view="user-form" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
 				<field name="team" canEdit="false" colSpan="6" form-view="team-form" grid-view="team-grid" if="__config__.app.getApp('base').getTeamManagement()"/>
-				<field name="companySet" colSpan="12" widget="TagSelect" canNew="false" form-view="gst-company-form" grid-view="gst-company-grid"/>
+				<field name="companySet" colSpan="12" widget="TagSelect" canNew="false" form-view="company-form" grid-view="company-grid"/>
 			</panel>
 		</panel>
 		<panel name="notes" title="Notes" colSpan="12" sidebar="true">
@@ -357,7 +357,7 @@
 		</panel-mail>
 	</form>
 
-	<cards name="gst-partner-cards" model="com.axelor.apps.base.db.Partner" title="Partners" css="rect-image">
+	<cards name="partner-cards" id="gst-partner-cards" model="com.axelor.apps.base.db.Partner" title="Partners" css="rect-image">
 		<field name="fullName" />
 		<field name="picture" />
 		<field name="fixedPhone"/>
@@ -389,7 +389,7 @@
 		</template>
 	</cards>
 
-	<cards name="gst-partner-contact-cards" model="com.axelor.apps.base.db.Partner" title="Contacts" css="rect-image">
+	<cards name="partner-contact-cards" id="gst-partner-contact-cards" model="com.axelor.apps.base.db.Partner" title="Contacts" css="rect-image">
 		<toolbar>
 			<button name="checkDuplicate" title="Check Duplicate" onClick="action-general-check-duplicate-records"/>
 		</toolbar>
