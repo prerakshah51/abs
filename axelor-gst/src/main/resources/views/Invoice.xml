@@ -9,6 +9,7 @@
     	<menubar>
             <menu title="Reports" icon="fa-files-o" showTitle="true">
 	            <item title="Print invoices" action="action-invoice-method-show-invoice"/>
+	            <item action="action-invoice-method-show-gst-invoice" title="Print GST invoices"/>
 	     	</menu>
 			<menu title="Tools" icon="fa-wrench" showTitle="true">
 	            <item title="Validate selected invoices" action="action-invoice-method-mass-validation" prompt="Are you sure you want to validate all selected invoices ?" />
@@ -36,6 +37,7 @@
         <field name="currency" width="60"/>
         <field name="statusSelect" width="100"/>
         <button name="showInvoice" title="Print" icon="fa-print" onClick="action-invoice-method-show-invoice"/>
+        <button name="showGstInvoice" title="Print GST" icon="fa-prinr" onClick="action-invoice-method-show-gst-invoice"/>
         <button name="sendByEmail" title="Send email" icon="fa-envelope" onClick="action-validate-send-email-remove-access-for-client,action-send-by-email-with-template"/>
     </grid>
 
@@ -43,6 +45,7 @@
     	<menubar>
             <menu title="Reports" icon="fa-files-o" showTitle="true">
 	            <item title="Print invoices" action="action-invoice-method-show-invoice"/>
+	            <item action="action-invoice-method-show-gst-invoice" title="Print GST invoices"/>
 	     	</menu>
 			<menu title="Tools" icon="fa-wrench" showTitle="true">
 	            <item title="Validate selected invoices" action="action-invoice-method-mass-validation" prompt="Are you sure you want to validate all selected invoices ?" />
@@ -68,6 +71,7 @@
         <field name="currency" />
         <field name="statusSelect"/>
         <button name="showInvoice" title="Print" icon="fa-print" onClick="action-invoice-method-show-invoice"/>
+        <button name="showGstInvoice" title="Print GST" icon="fa-print" onClick="action-invoice-method-show-gst-invoice"/>
         <button name="sendByEmail" title="Send email" icon="fa-envelope" onClick="action-send-by-email-with-template"/>
     </grid>
 
@@ -78,7 +82,9 @@
         <menubar>
             <menu title="Reports" icon="fa-files-o" showTitle="true">
                 <item title="Print" action="save,action-invoice-method-show-invoice" readonlyIf="partner == null" showIf="printedPDF == null || (statusSelect != 3 &amp;&amp; !(operationSubTypeSelect == 2 &amp;&amp; statusSelect == 2))"/>
+                <item title="Print GST" action="save,action-invoice-method-show-gst-invoice" readonlyIf="partner == null" showIf="printedPDF == null || (statusSelect != 3 &amp;&amp; !(operationSubTypeSelect == 2 &amp;&amp; statusSelect == 2))"/>
                 <item title="Show stored copy" action="action-invoice-method-show-invoice" readonlyIf="partner == null" showIf="(statusSelect == 3 || (operationSubTypeSelect == 2 &amp;&amp; statusSelect == 2)) &amp;&amp; printedPDF != null"/>
+                <item title="Show stored GST copy" action="action-invoice-method-show-gst-invoice" readonlyIf="partner == null" showIf="(statusSelect == 3 || (operationSubTypeSelect == 2 &amp;&amp; statusSelect == 2)) &amp;&amp; printedPDF != null"/>
                 <item title="Print updated copy" action="save,action-invoice-validate-regenerate-invoice,action-invoice-method-regenerate-and-show-invoice" readonlyIf="partner == null" showIf="(statusSelect == 3 || (operationSubTypeSelect == 2 &amp;&amp; statusSelect == 2)) &amp;&amp; printedPDF != null"/>
                 <item title="Print annex" action="action-invoice-business-project-method-print-annex" showIf="partner != null &amp;&amp; (displayTimesheetOnPrinting || displayExpenseOnPrinting)" if-module="axelor-business-project"/>
             </menu>
@@ -139,7 +145,7 @@
         </panel>
 
         <panel title="Invoicing informations" hideIf="company == null">
-            <field name="partner" readonlyIf="statusSelect != 1" onChange="action-group-account-invoice-partner-onchange,action-method-invoice-address-str" onSelect="action-set-partner-domain" form-view="partner-form" grid-view="partner-grid"/>
+            <field name="partner" readonlyIf="statusSelect != 1" onChange="action-group-account-invoice-partner-onchange,action-method-invoice-address-str,action-gst-invoice-method-address-change-computes" onSelect="action-set-partner-domain" form-view="partner-form" grid-view="partner-grid"/>
             <field name="contactPartner" onSelect="action-set-partner-domain" domain="self.isContact = true" readonlyIf="partner != null &amp;&amp; partner.partnerTypeSelect == 2" form-view="partner-contact-form" grid-view="partner-contact-grid"/>
             <panel stacked="true">
                 <field name="address" hideIf="$readonly() || statusSelect &gt; 1" onSelect="action-invoice-attrs-domain-address" onChange="action-method-invoice-address-str" canEdit="false" canNew="true" form-view="address-partner-address-form" grid-view="address-grid"/>
@@ -163,13 +169,8 @@
 
 		<panel-tabs>
 			<panel name="invoiceContent" title="Invoice content" showTitle="false">
-				<panel-related field="invoiceLineList" canNew="statusSelect == 1" canRemove="statusSelect == 1" readonlyIf="statusSelect == 3 || partner == null" colSpan="12" form-view="invoice-line-form" grid-view="invoice-line-grid" onChange="action-invoice-method-compute,action-gst-invoice-method-compute-invoice-gst" canMove="true" orderBy="sequence"/>
+				<panel-related field="invoiceLineList" canNew="statusSelect == 1" canRemove="statusSelect == 1" readonlyIf="statusSelect == 3 || partner == null" colSpan="12" form-view="invoice-line-form" grid-view="invoice-line-grid" onChange="action-invoice-method-compute" canMove="true" orderBy="sequence"/>
 				<panel-related field="invoiceLineTaxList" colSpan="12" form-view="invoice-line-tax-form" grid-view="invoice-line-tax-grid"/>
-				<panel if-module="axelor-gst" if="__config__.app.isApp('gst')" colSpan="12">
-					<field name="netCgst" colSpan="4"/>
-					<field name="netSgst" colSpan="4"/>
-					<field name="netIgst" colSpan="4"/>
-				</panel>
 			</panel>
 			<panel name="accounting" title="Accounting" showTitle="false">
 				<panel name="accountingDetails" title="Accounting details"  colSpan="12">
@@ -274,6 +275,11 @@
 				<field name="dueDate" onChange="action-invoice-record-estimated-payment-date"/>
 				<field name="estimatedPaymentDate" readonly="true" if-module="axelor-cash-management"  if="__config__.app.isApp('cash-management')" />
 			</panel>
+			<panel name="gst" title="GST Details" readonlyIf="statusSelect == 3" if="__config__.app.isApp('gst')" if-module="axelor-gst">
+				<field name="netCgst" colSpan="4"/>
+				<field name="netSgst" colSpan="4"/>
+				<field name="netIgst" colSpan="4"/>
+			</panel>
 		</panel-stack>
 
 		<panel sidebar="true" name="totals" title="Totals" itemSpan="6"  hideIf="partner == null">
@@ -354,8 +360,12 @@
 		<call class="com.axelor.apps.gst.web.GSTProductController" method="setGstProductToInvoiceLine"/>
 	</action-method>
 	
-	<action-method name="action-gst-invoice-method-compute-invoice-gst">
-		<call class="com.axelor.apps.gst.web.GSTInvoiceController" method="computeInvoiceGstValues"/>
+	<action-method name="action-invoice-method-show-gst-invoice">
+		<call class="com.axelor.apps.gst.web.GSTInvoiceController" method="showInvoice"/>
+	</action-method>
+	
+	<action-method name="action-gst-invoice-method-address-change-computes">
+		<call class="com.axelor.apps.gst.web.GSTInvoiceController" method="addressChangeComputes"/>
 	</action-method>
 
 </object-views>
