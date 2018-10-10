@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 public class GSTInvoiceController {
 
   @Inject
-  GSTProductService gstInvoiceService;
+  GSTProductService invoiceProductService;
 
   public void showInvoice(ActionRequest request, ActionResponse response) throws AxelorException {
     Invoice invoice = request.getContext().asType(Invoice.class);
@@ -27,7 +27,9 @@ public class GSTInvoiceController {
 
   public void addressChangeComputes(ActionRequest request, ActionResponse response) {
     Invoice invoice = request.getContext().asType(Invoice.class);
-    invoice = gstInvoiceService.addressChangeComputes(invoice);
-    response.setValue("invoiceLineList", invoice.getInvoiceLineList());
+    if (invoice.getInvoiceLineList() != null) {
+      invoice = invoiceProductService.addressChangeComputes(invoice);
+      response.setValue("invoiceLineList", invoice.getInvoiceLineList());
+    }
   }
 }
