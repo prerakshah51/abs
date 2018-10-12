@@ -27,19 +27,19 @@
 		</panel>
 		<panel-tabs hideIf="isTitleLine">
 			<panel name="informations" title="Information">
-				<field name="product" canEdit="false" onChange="action-group-account-invoice-line-product-onchange,action-group-gst-invoice-line-product-onchange" form-view="product-form" grid-view="product-grid" domain="self.isModel = false"/>
+				<field name="product" canEdit="false" onChange="action-group-account-invoice-line-product-onchange" form-view="product-form" grid-view="product-grid" domain="self.isModel = false"/>
 				<field name="isTitleLine" colOffset="4" colSpan="2" onChange="action-invoice-line-method-empty-line" widget="boolean-switch"/>
 				<field name="productName" colSpan="12" requiredIf="!isTitleLine"/>
-				<field name="qty" colSpan="3" required="true" onChange="action-group-account-invoice-line-qty-onchange,action-group-gst-invoice-line-product-onchange"/>
+				<field name="qty" colSpan="3" required="true" onChange="action-group-account-invoice-line-qty-onchange,action-invoice-line-method-get-product-information"/>
 				<field name="unit" colSpan="3" canEdit="false" form-view="unit-form" grid-view="unit-grid"/>
-				<field name="price" colSpan="3" required="true" onChange="action-invoice-line-method-onchange-price,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount,action-group-gst-invoice-line-product-onchange" hidden="true"/>
+				<field name="price" colSpan="3" required="true" onChange="action-invoice-line-method-onchange-price,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount,action-invoice-line-method-get-product-information" hidden="true"/>
 				<field name="inTaxPrice" colSpan="3" required="true" onChange="action-invoice-line-method-onchange-intaxprice,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount" hidden="true"/>
 				<panel name="discount" colSpan="12">
-					<field name="discountTypeSelect" colSpan="3" onChange="action-invoice-line-method-compute,action-invoice-line-attrs-discountamount-title,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount,action-group-gst-invoice-line-product-onchange"/>
-					<field name="discountAmount" colSpan="3" onChange="action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount,action-group-gst-invoice-line-product-onchange" hideIf="discountTypeSelect == 3"/>
-					<field name="priceDiscounted" colSpan="3" hidden="true"/>
+					<field name="discountTypeSelect" colSpan="3" onChange="action-invoice-line-method-compute,action-invoice-line-attrs-discountamount-title,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"/>
+					<field name="discountAmount" colSpan="3" onChange="action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount,action-invoice-line-method-get-product-information" hideIf="discountTypeSelect == 3"/>
+					<field name="priceDiscounted" colSpan="3" onChange="action-invoice-line-method-get-product-information" hidden="true"/>
 				</panel>
-				<field name="taxLine" onChange="action-invoice-line-method-convert-tax,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount,action-group-gst-invoice-line-product-onchange" grid-view="tax-line-grid" form-view="tax-line-form"/>
+				<field name="taxLine" onChange="action-invoice-line-method-convert-tax,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount,action-invoice-line-method-get-product-information" grid-view="tax-line-grid" form-view="tax-line-form"/>
 				<field name="exTaxTotal" colSpan="3" readonly="true"/>
 				<field name="inTaxTotal" colSpan="3" readonly="true"/>
 				<field name="taxEquiv" hidden="true" grid-view="tax-equiv-grid" form-view="tax-equiv-form"/>
@@ -76,12 +76,5 @@
 			</panel>
 		</panel-tabs>
 	</form>
-
-	<action-group name="action-group-gst-invoice-line-product-onchange">
-		<action name="action-gst-invoice-line-method-set-fields" if="__config__.app.isApp('gst')"/>
-	</action-group>
-
-	<action-method name="action-gst-invoice-line-method-set-fields">
-		<call class="com.axelor.apps.gst.web.GSTInvoiceLineController" method="computeInvoiceLineGstValues"/>
-	</action-method>
+	
 </object-views>
